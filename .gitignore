@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Secrets — NEVER commit these
+.env
+*.env
+client_secret*.json
+credentials.json
+token.json
+servers.json
+
+# OS
+.DS_Store
+Thumbs.db

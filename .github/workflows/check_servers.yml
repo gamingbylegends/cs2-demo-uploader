@@ -1,0 +1,26 @@
+name: Check CS2 Server Status
+
+on:
+  workflow_dispatch:   # run manually from the Actions tab
+
+jobs:
+  check-servers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Check server status and coverage
+        env:
+          DATHOST_EMAIL: ${{ secrets.DATHOST_EMAIL }}
+          DATHOST_PASSWORD: ${{ secrets.DATHOST_PASSWORD }}
+          SERVERS_CONFIG: ${{ secrets.SERVERS_CONFIG }}
+        run: python check_servers.py

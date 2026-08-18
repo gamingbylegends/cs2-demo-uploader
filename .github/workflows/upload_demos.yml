@@ -1,0 +1,31 @@
+name: Upload CS2 Demos to Google Drive
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # every 10 minutes
+  workflow_dispatch:          # allow manual runs from the Actions tab
+
+jobs:
+  upload-demos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Upload new demos to Google Drive
+        env:
+          DATHOST_EMAIL: ${{ secrets.DATHOST_EMAIL }}
+          DATHOST_PASSWORD: ${{ secrets.DATHOST_PASSWORD }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          SERVERS_CONFIG: ${{ secrets.SERVERS_CONFIG }}
+        run: python upload_demos.py
